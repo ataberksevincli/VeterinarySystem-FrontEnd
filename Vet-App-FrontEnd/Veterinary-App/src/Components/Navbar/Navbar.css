@@ -1,0 +1,35 @@
+.navbar {
+  background-color: #1976d2;
+}
+
+.navbar-button {
+  color: white;
+  text-transform: none;
+  margin-right: 8px;
+}
+
+.navbar-button:hover {
+  background-color: #ffffff;
+}
+
+.menu-link {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+
+.menu-link:hover {
+  color: rgb(0, 0, 0);
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar-link:hover {
+  color: rgb(0, 0, 0);
+}
+
+.navbar-avatar {
+  margin-left: 20px;
+}
