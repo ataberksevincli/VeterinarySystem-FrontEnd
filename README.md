@@ -1,8 +1,11 @@
-# React + Vite
+# Welcome to my Veterinary Management System.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Please be careful when registering components.
 
-Currently, two official plugins are available:
+## For example, if the doctor does not have a free day, you cannot make an appointment for that doctor.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Likewise, if you do not choose the animal owner correctly, you cannot make an appointment for that animal.
+
+## Thank you for supporting my projects !
+
+## Live website link -> https://veterinary-system-front-end-mp5e.vercel.app/
