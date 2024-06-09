@@ -61,10 +61,15 @@ function Vaccination() {
   }, [update]);
 
   const handleAddNewVaccination = () => {
+    const vaccinationToAdd = {
+      ...newVaccination,
+      animalWithoutCustomer: { ...newVaccination.animalWithoutCustomer },
+    };
+
     axios
       .post(
         import.meta.env.VITE_APP_BASEURL + "/api/v1/vaccinations",
-        newVaccination
+        vaccinationToAdd
       )
       .then(() => setUpdate(false))
       .then(() => setNewVaccination({ ...initState }))
@@ -84,19 +89,39 @@ function Vaccination() {
 
   const handleAnimalSelectChange = (e) => {
     const id = e.target.value;
-    const newAnimal = animal.find((c) => c.id === id);
+    const selectedAnimal = animal.find((c) => c.id === id);
+    const animalWithoutCustomer = {
+      id: selectedAnimal.id,
+      name: selectedAnimal.name,
+      species: selectedAnimal.species,
+      breed: selectedAnimal.breed,
+      gender: selectedAnimal.gender,
+      dateOfBirth: selectedAnimal.dateOfBirth,
+      colour: selectedAnimal.colour,
+    };
+
     setNewVaccination((prev) => ({
       ...prev,
-      animalWithoutCustomer: newAnimal,
+      animalWithoutCustomer: animalWithoutCustomer,
     }));
   };
 
   const handleUpdateAnimalSelectChange = (e) => {
     const id = e.target.value;
-    const newAnimal = animal.find((c) => c.id === id);
+    const selectedAnimal = animal.find((c) => c.id === id);
+    const animalWithoutCustomer = {
+      id: selectedAnimal.id,
+      name: selectedAnimal.name,
+      species: selectedAnimal.species,
+      breed: selectedAnimal.breed,
+      gender: selectedAnimal.gender,
+      dateOfBirth: selectedAnimal.dateOfBirth,
+      colour: selectedAnimal.colour,
+    };
+
     setUpdateVaccination((prev) => ({
       ...prev,
-      animalWithoutCustomer: newAnimal,
+      animalWithoutCustomer: animalWithoutCustomer,
     }));
   };
 
@@ -113,10 +138,15 @@ function Vaccination() {
 
   const handleUpdateVaccination = () => {
     const { id } = updateVaccination;
+    const vaccinationToUpdate = {
+      ...updateVaccination,
+      animalWithoutCustomer: { ...updateVaccination.animalWithoutCustomer },
+    };
+
     axios
       .put(
         `${import.meta.env.VITE_APP_BASEURL}/api/v1/vaccinations/${id}`,
-        updateVaccination
+        vaccinationToUpdate
       )
       .then(() => setUpdate(false))
       .then(() => setUpdateVaccination({ ...initState }))
