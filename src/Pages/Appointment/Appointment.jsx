@@ -1,6 +1,15 @@
-import React, { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import "./Appointment.css";
+import "./Appointment.css"; // CSS dosyasını import ediyoruz
 
 function Appointment() {
   const initState = {
@@ -252,184 +261,228 @@ function Appointment() {
       <div className="card">
         <h3>Add Appointment</h3>
         <div className="form-group">
-          <input
+          <TextField
             type="datetime-local"
             name="appointmentDate"
             value={newAppointment.appointmentDate}
             onChange={handleNewAppointmentInputChange}
           />
-          <select
+          <Select
             id="CustomerSelect"
             name="customer"
             value={newAppointment.customer.id || ""}
+            label="Customer"
             onChange={handleCustomerSelectChange}
           >
+            <MenuItem value="">
+              <em>Select Customer</em>
+            </MenuItem>
             {customer?.map((cus, index) => (
-              <option key={index} value={cus.id}>
+              <MenuItem key={index} value={cus.id}>
                 {cus.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <select
+          </Select>
+          <Select
             id="AnimalSelect"
             name="animal"
             value={newAppointment.animal.id || ""}
+            label="Animal"
             onChange={handleAnimalSelectChange}
           >
+            <MenuItem value="">
+              <em>Select Animal</em>
+            </MenuItem>
             {animal?.map((anim, index) => (
-              <option key={index} value={anim.id}>
+              <MenuItem key={index} value={anim.id}>
                 {anim.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <select
+          </Select>
+          <Select
             id="DoctorSelect"
             name="doctor"
             value={newAppointment.doctor.id || ""}
+            label="Doctor"
             onChange={handleDoctorSelectChange}
           >
+            <MenuItem value="">
+              <em>Select Doctor</em>
+            </MenuItem>
             {doctor?.map((doc, index) => (
-              <option key={index} value={doc.id}>
+              <MenuItem key={index} value={doc.id}>
                 {doc.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button onClick={handleAddNewAppointment}>Add Appointment</button>
+          </Select>
+          <Button onClick={handleAddNewAppointment}>Add Appointment</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Update Appointment</h3>
         <div className="form-group">
-          <input
+          <TextField
             type="datetime-local"
             name="appointmentDate"
             value={updateAppointment.appointmentDate}
             onChange={handleUpdateAppointmentInputChange}
           />
-          <select
+          <Select
             id="CustomerSelect"
             name="customer"
             value={updateAppointment.customer.id || ""}
+            label="Customer"
             onChange={handleUpdateCustomerSelectChange}
           >
+            <MenuItem value="">
+              <em>Select Customer</em>
+            </MenuItem>
             {customer?.map((cus, index) => (
-              <option key={index} value={cus.id}>
+              <MenuItem key={index} value={cus.id}>
                 {cus.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <select
+          </Select>
+          <Select
             id="AnimalSelect"
             name="animal"
             value={updateAppointment.animal.id || ""}
+            label="Animal"
             onChange={handleUpdateAnimalSelectChange}
           >
+            <MenuItem value="">
+              <em>Select Animal</em>
+            </MenuItem>
             {animal?.map((anim, index) => (
-              <option key={index} value={anim.id}>
+              <MenuItem key={index} value={anim.id}>
                 {anim.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <select
+          </Select>
+          <Select
             id="DoctorSelect"
             name="doctor"
             value={updateAppointment.doctor.id || ""}
+            label="Doctor"
             onChange={handleUpdateDoctorSelectChange}
           >
+            <MenuItem value="">
+              <em>Select Doctor</em>
+            </MenuItem>
             {doctor?.map((doc, index) => (
-              <option key={index} value={doc.id}>
+              <MenuItem key={index} value={doc.id}>
                 {doc.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button onClick={handleUpdateAppointment}>Update Appointment</button>
+          </Select>
+          <Button onClick={handleUpdateAppointment}>Update Appointment</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Search Appointments by Animal</h3>
         <div className="form-group">
-          <input
-            type="text"
+          <TextField
+            variant="standard"
+            placeholder="Search by Animal"
             value={searchAnimal}
             onChange={(e) => setSearchAnimal(e.target.value)}
           />
-          <input
+          <TextField
             type="date"
+            variant="standard"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
-          <input
+          <TextField
             type="date"
+            variant="standard"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
-          <button onClick={handleAnimalSearch}>Search</button>
+          <Button onClick={handleAnimalSearch}>Search</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Search Appointments by Doctor</h3>
         <div className="form-group">
-          <input
-            type="text"
+          <TextField
+            variant="standard"
+            placeholder="Search by Doctor"
             value={searchDoctor}
             onChange={(e) => setSearchDoctor(e.target.value)}
           />
-          <input
+          <TextField
             type="date"
+            variant="standard"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
-          <input
+          <TextField
             type="date"
+            variant="standard"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
-          <button onClick={handleDoctorSearch}>Search</button>
+          <Button onClick={handleDoctorSearch}>Search</Button>
         </div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Customer</th>
-            <th>Animal</th>
-            <th>Doctor</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {appointment?.map((app, index) => (
-            <tr key={index}>
-              <td>{app.appointmentDate}</td>
-              <td>{app.animal.customer?.name || "Unknown Customer"}</td>
-              <td>{app.animal?.name || "Unknown Animal"}</td>
-              <td>{app.doctor?.name || "Unknown Doctor"}</td>
-              <td className="actions">
-                <button onClick={handleDeleteAppointment} id={app.id}>
-                  DELETE
-                </button>
-                <button onClick={handleUpdateAppointmentBtn} id={index}>
-                  UPDATE
-                </button>
-              </td>
+      <div className="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Customer</th>
+              <th>Animal</th>
+              <th>Doctor</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {appointment?.map((app, index) => (
+              <tr key={index}>
+                <td>{app.appointmentDate}</td>
+                <td>{app.animal.customer?.name || "Unknown Customer"}</td>
+                <td>{app.animal?.name || "Unknown Animal"}</td>
+                <td>{app.doctor?.name || "Unknown Doctor"}</td>
+                <td className="actions">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleDeleteAppointment}
+                    id={app.id}
+                  >
+                    DELETE
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleUpdateAppointmentBtn}
+                    id={index}
+                  >
+                    UPDATE
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      {open && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Error</h2>
-            <p>{error}</p>
-            <button onClick={handleClose}>Close</button>
-          </div>
-        </div>
-      )}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>{"Error"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{error}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

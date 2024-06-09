@@ -1,4 +1,13 @@
-import React, { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Animal.css"; // CSS dosyasını import ediyoruz
 
@@ -199,146 +208,158 @@ function Animal() {
       <div className="card">
         <h3>Add Animal</h3>
         <div className="form-group">
-          <input
-            type="text"
-            placeholder="Animal Name"
+          <TextField
+            label="Animal Name"
+            variant="standard"
             name="name"
             value={newAnimal.name}
             onChange={handleNewAnimalInputChange}
           />
-          <input
-            type="text"
-            placeholder="Animal Species"
+          <TextField
+            label="Animal Species"
+            variant="standard"
             name="species"
             value={newAnimal.species}
             onChange={handleNewAnimalInputChange}
           />
-          <input
-            type="text"
-            placeholder="Animal Breed"
+          <TextField
+            label="Animal Breed"
+            variant="standard"
             name="breed"
             value={newAnimal.breed}
             onChange={handleNewAnimalInputChange}
           />
-          <input
-            type="text"
-            placeholder="Animal Gender"
+          <TextField
+            label="Animal Gender"
+            variant="standard"
             name="gender"
             value={newAnimal.gender}
             onChange={handleNewAnimalInputChange}
           />
-          <input
+          <TextField
+            variant="standard"
             type="date"
             name="dateOfBirth"
             value={newAnimal.dateOfBirth}
             onChange={handleNewAnimalInputChange}
           />
-          <input
-            type="text"
-            placeholder="Animal Colour"
+          <TextField
+            label="Animal Colour"
+            variant="standard"
             name="colour"
             value={newAnimal.colour}
             onChange={handleNewAnimalInputChange}
           />
-          <select
+          <Select
+            labelId="demo-simple-select-label"
+            id="CustomerSelect"
             name="customer"
             value={newAnimal.customer.id || ""}
+            label="Customer"
             onChange={handleCustomerSelectChange}
           >
-            <option value="">Select Customer</option>
+            <MenuItem value="">
+              <em>Select Customer</em>
+            </MenuItem>
             {customer?.map((cus, index) => (
-              <option key={index} value={cus.id}>
+              <MenuItem key={index} value={cus.id}>
                 {cus.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button onClick={handleAddNewAnimal}>Add Animal</button>
+          </Select>
+          <Button onClick={handleAddNewAnimal}>Add Animal</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Update Animal</h3>
         <div className="form-group">
-          <input
-            type="text"
-            placeholder="Animal Name"
+          <TextField
+            label="Animal Name"
+            variant="standard"
             name="name"
             value={updateAnimal.name}
             onChange={handleUpdateAnimalInputChange}
           />
-          <input
-            type="text"
-            placeholder="Animal Species"
+          <TextField
+            label="Animal Species"
+            variant="standard"
             name="species"
             value={updateAnimal.species}
             onChange={handleUpdateAnimalInputChange}
           />
-          <input
-            type="text"
-            placeholder="Animal Breed"
+          <TextField
+            label="Animal Breed"
+            variant="standard"
             name="breed"
             value={updateAnimal.breed}
             onChange={handleUpdateAnimalInputChange}
           />
-          <input
-            type="text"
-            placeholder="Animal Gender"
+          <TextField
+            label="Animal Gender"
+            variant="standard"
             name="gender"
             value={updateAnimal.gender}
             onChange={handleUpdateAnimalInputChange}
           />
-          <input
+          <TextField
+            variant="standard"
             type="date"
             name="dateOfBirth"
             value={updateAnimal.dateOfBirth}
             onChange={handleUpdateAnimalInputChange}
           />
-          <input
-            type="text"
-            placeholder="Animal Colour"
+          <TextField
+            label="Animal Colour"
+            variant="standard"
             name="colour"
             value={updateAnimal.colour}
             onChange={handleUpdateAnimalInputChange}
           />
-          <select
+          <Select
+            labelId="demo-simple-select-label"
+            id="UpdateCustomerSelect"
             name="customer"
             value={updateAnimal.customer.id || ""}
+            label="Customer"
             onChange={handleUpdateCustomerSelectChange}
           >
-            <option value="">Select Customer</option>
+            <MenuItem value="">
+              <em>Select Customer</em>
+            </MenuItem>
             {customer?.map((cus, index) => (
-              <option key={index} value={cus.id}>
+              <MenuItem key={index} value={cus.id}>
                 {cus.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button onClick={handleUpdateAnimal}>Update Animal</button>
+          </Select>
+          <Button onClick={handleUpdateAnimal}>Update Animal</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Search Animal by Name</h3>
         <div className="form-group">
-          <input
-            type="text"
+          <TextField
+            variant="standard"
             placeholder="Search by Name"
             value={searchName}
             onChange={(e) => setSearchName(e.target.value)}
           />
-          <button onClick={handleSearchByName}>Search</button>
+          <Button onClick={handleSearchByName}>Search</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Search Animal by Customer</h3>
         <div className="form-group">
-          <input
-            type="text"
+          <TextField
+            variant="standard"
             placeholder="Search by Customer"
             value={searchCustomer}
             onChange={(e) => setSearchCustomer(e.target.value)}
           />
-          <button onClick={handleSearchByCustomer}>Search</button>
+          <Button onClick={handleSearchByCustomer}>Search</Button>
         </div>
       </div>
 
@@ -367,12 +388,22 @@ function Animal() {
                 <td>{anim.colour}</td>
                 <td>{anim.customer?.name || "Unknown Customer"}</td>
                 <td className="actions">
-                  <button onClick={handleDeleteAnimal} id={anim.id}>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleDeleteAnimal}
+                    id={anim.id}
+                  >
                     DELETE
-                  </button>
-                  <button onClick={handleUpdateAnimalBtn} id={index}>
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleUpdateAnimalBtn}
+                    id={index}
+                  >
                     UPDATE
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -380,15 +411,17 @@ function Animal() {
         </table>
       </div>
 
-      {open && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Error</h2>
-            <p>{error}</p>
-            <button onClick={handleClose}>Close</button>
-          </div>
-        </div>
-      )}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>{"Error"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{error}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

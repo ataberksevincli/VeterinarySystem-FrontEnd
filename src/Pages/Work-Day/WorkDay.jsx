@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import "./WorkDay.css"; // CSS dosyasını import ediyoruz
 
 function WorkDay() {
@@ -101,7 +110,7 @@ function WorkDay() {
         updateWorkDay
       )
       .then(() => setUpdate(false))
-      .then(() => setUpdateWorkDay({ workDay: "" }))
+      .then(() => setUpdateWorkDay({ ...initState }))
       .catch((err) => {
         setError("Failed to update work day.");
         handleClickOpen();
@@ -118,7 +127,11 @@ function WorkDay() {
 
   const handleUpdateWorkDayBtn = (e) => {
     const index = e.target.id;
-    setUpdateWorkDay({ ...workDay[index] });
+    const selectedWorkDay = workDay[index];
+    setUpdateWorkDay({
+      ...selectedWorkDay,
+      doctor: selectedWorkDay.doctor || initState.doctor,
+    });
   };
 
   const handleClickOpen = () => {
@@ -134,50 +147,60 @@ function WorkDay() {
       <div className="card">
         <h3>Add Work Day</h3>
         <div className="form-group">
-          <input
+          <TextField
+            variant="standard"
             type="date"
             name="workDay"
             value={newWorkDay.workDay}
             onChange={handleNewWorkDayInputChange}
           />
-          <select
+          <Select
+            labelId="doctor-select-label"
             id="DoctorSelect"
             name="doctor"
             value={newWorkDay.doctor.id || ""}
             onChange={handleDoctorSelectChange}
           >
+            <MenuItem value="">
+              <em>Select Doctor</em>
+            </MenuItem>
             {doctor?.map((dc, index) => (
-              <option key={index} value={dc.id}>
+              <MenuItem key={index} value={dc.id}>
                 {dc.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button onClick={handleAddNewWorkDay}>Add Work Day</button>
+          </Select>
+          <Button onClick={handleAddNewWorkDay}>Add Work Day</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Update Work Day</h3>
         <div className="form-group">
-          <input
+          <TextField
+            variant="standard"
             type="date"
             name="workDay"
             value={updateWorkDay.workDay}
             onChange={handleUpdateWorkDayInputChange}
           />
-          <select
-            id="WorkDaySelect"
+          <Select
+            labelId="doctor-select-label"
+            id="UpdateDoctorSelect"
             name="doctor"
             value={updateWorkDay.doctor.id || ""}
             onChange={handleUpdateDoctorSelectChange}
           >
+            <MenuItem value="">
+              <em>Select Doctor</em>
+            </MenuItem>
             {doctor?.map((dc, index) => (
-              <option key={index} value={dc.id}>
+              <MenuItem key={index} value={dc.id}>
                 {dc.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button onClick={handleUpdateWorkDay}>Update Work Day</button>
+          </Select>
+          <Button onClick={handleUpdateWorkDay}>Update Work Day</Button>
         </div>
       </div>
 
@@ -195,27 +218,39 @@ function WorkDay() {
               <td>{wd.workDay}</td>
               <td>{wd.doctor.name}</td>
               <td className="actions">
-                <button onClick={handleDeleteWorkDay} id={wd.id}>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={handleDeleteWorkDay}
+                  id={wd.id}
+                >
                   DELETE
-                </button>
-                <button onClick={handleUpdateWorkDayBtn} id={index}>
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleUpdateWorkDayBtn}
+                  id={index}
+                >
                   UPDATE
-                </button>
+                </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {open && (
-        <div className="modal">
-          <div className="modal-content">
-            <h4>Error</h4>
-            <p>{error}</p>
-            <button onClick={handleClose}>Close</button>
-          </div>
-        </div>
-      )}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>{"Error"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{error}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

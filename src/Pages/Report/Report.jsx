@@ -1,6 +1,15 @@
-import React, { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import "./Report.css";
+import "./Report.css"; // CSS dosyasını import ediyoruz
 
 function Report() {
   const initState = {
@@ -110,7 +119,10 @@ function Report() {
   const handleUpdateReportBtn = (e) => {
     const index = e.target.getAttribute("id");
     const selectedReport = report[index];
-    setUpdateReport({ ...selectedReport });
+    setUpdateReport({
+      ...selectedReport,
+      appointmentId: selectedReport.appointmentId || "",
+    });
   };
 
   const handleClickOpen = () => {
@@ -126,122 +138,146 @@ function Report() {
       <div className="card">
         <h3>Add Report</h3>
         <div className="form-group">
-          <input
-            type="text"
-            placeholder="Report Title"
+          <TextField
+            label="Report Title"
+            variant="standard"
             name="title"
             value={newReport.title}
             onChange={handleNewReportInputChange}
           />
-          <input
-            type="text"
-            placeholder="Diagnosis"
+          <TextField
+            label="Diagnosis"
+            variant="standard"
             name="diagnosis"
             value={newReport.diagnosis}
             onChange={handleNewReportInputChange}
           />
-          <input
+          <TextField
             type="number"
-            placeholder="Price"
+            label="Price"
+            variant="standard"
             name="price"
             value={newReport.price}
             onChange={handleNewReportInputChange}
           />
-          <select
+          <Select
             id="AppointmentSelect"
             name="appointmentId"
-            value={newReport.appointmentId}
+            value={newReport.appointmentId || ""}
+            label="Appointment"
             onChange={handleNewReportAppointmentChange}
           >
+            <MenuItem value="">
+              <em>Select Appointment</em>
+            </MenuItem>
             {appointments?.map((app, index) => (
-              <option key={index} value={app.id}>
+              <MenuItem key={index} value={app.id}>
                 {app.appointmentDate} - {app.customer?.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button onClick={handleAddNewReport}>Add Report</button>
+          </Select>
+          <Button onClick={handleAddNewReport}>Add Report</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Update Report</h3>
         <div className="form-group">
-          <input
-            type="text"
-            placeholder="Report Title"
+          <TextField
+            label="Report Title"
+            variant="standard"
             name="title"
             value={updateReport.title}
             onChange={handleUpdateReportInputChange}
           />
-          <input
-            type="text"
-            placeholder="Diagnosis"
+          <TextField
+            label="Diagnosis"
+            variant="standard"
             name="diagnosis"
             value={updateReport.diagnosis}
             onChange={handleUpdateReportInputChange}
           />
-          <input
+          <TextField
             type="number"
-            placeholder="Price"
+            label="Price"
+            variant="standard"
             name="price"
             value={updateReport.price}
             onChange={handleUpdateReportInputChange}
           />
-          <select
+          <Select
             id="UpdateAppointmentSelect"
             name="appointmentId"
-            value={updateReport.appointmentId}
+            value={updateReport.appointmentId || ""}
+            label="Appointment"
             onChange={handleUpdateReportAppointmentChange}
           >
+            <MenuItem value="">
+              <em>Select Appointment</em>
+            </MenuItem>
             {appointments?.map((app, index) => (
-              <option key={index} value={app.id}>
+              <MenuItem key={index} value={app.id}>
                 {app.appointmentDate} - {app.customer?.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button onClick={handleUpdateReport}>Update Report</button>
+          </Select>
+          <Button onClick={handleUpdateReport}>Update Report</Button>
         </div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Diagnosis</th>
-            <th>Price</th>
-            <th>Appointment</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {report?.map((rep, index) => (
-            <tr key={index}>
-              <td>{rep.title}</td>
-              <td>{rep.diagnosis}</td>
-              <td>{rep.price}</td>
-              <td>{rep.appointment.customerName}</td>
-              <td className="actions">
-                <button onClick={handleDeleteReport} id={rep.id}>
-                  DELETE
-                </button>
-                <button onClick={handleUpdateReportBtn} id={index}>
-                  UPDATE
-                </button>
-              </td>
+      <div className="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Diagnosis</th>
+              <th>Price</th>
+              <th>Appointment</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {report?.map((rep, index) => (
+              <tr key={index}>
+                <td>{rep.title}</td>
+                <td>{rep.diagnosis}</td>
+                <td>{rep.price}</td>
+                <td>{rep.appointment.customerName}</td>
+                <td className="actions">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleDeleteReport}
+                    id={rep.id}
+                  >
+                    DELETE
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleUpdateReportBtn}
+                    id={index}
+                  >
+                    UPDATE
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      {open && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Error</h2>
-            <p>{error}</p>
-            <button onClick={handleClose}>Close</button>
-          </div>
-        </div>
-      )}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>{"Error"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{error}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

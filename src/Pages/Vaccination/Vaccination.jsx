@@ -1,6 +1,15 @@
-import React, { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import Select from "@mui/material/Select";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import "./Vaccination.css";
+import "./Vaccination.css"; // CSS dosyasını import ediyoruz
 
 function Vaccination() {
   const initState = {
@@ -27,7 +36,7 @@ function Vaccination() {
   const [updateVaccination, setUpdateVaccination] = useState({ ...initState });
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
-  const [searchName, setSearchName] = useState("");
+
   const [searchAnimal, setSearchAnimal] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -136,23 +145,6 @@ function Vaccination() {
     });
   };
 
-  const handleSearchByName = () => {
-    axios
-      .get(
-        import.meta.env.VITE_APP_BASEURL + "/api/v1/vaccinations/searchByName",
-        {
-          params: { name: searchName },
-        }
-      )
-      .then((res) => {
-        setVaccination(res.data.content);
-      })
-      .catch((error) => {
-        setError("Failed to search by name.");
-        handleClickOpen();
-      });
-  };
-
   const handleSearchByAnimal = () => {
     axios
       .get(
@@ -205,175 +197,194 @@ function Vaccination() {
       <div className="card">
         <h3>Add Vaccination</h3>
         <div className="form-group">
-          <input
-            type="text"
+          <TextField
+            label="Vaccination Name"
+            variant="standard"
             name="name"
-            placeholder="Vaccination Name"
             value={newVaccination.name}
             onChange={handleNewVaccinationInputChange}
           />
-          <input
-            type="text"
+          <TextField
+            label="Vaccination Code"
+            variant="standard"
             name="code"
-            placeholder="Vaccination Code"
             value={newVaccination.code}
             onChange={handleNewVaccinationInputChange}
           />
-          <input
+          <TextField
+            variant="standard"
             type="date"
             name="protectionStartDate"
             value={newVaccination.protectionStartDate}
             onChange={handleNewVaccinationInputChange}
           />
-          <input
+          <TextField
+            variant="standard"
             type="date"
             name="protectionFinishDate"
             value={newVaccination.protectionFinishDate}
             onChange={handleNewVaccinationInputChange}
           />
-          <select
+          <Select
+            labelId="demo-simple-select-label"
             id="AnimalSelect"
             name="animalWithoutCustomer"
             value={newVaccination.animalWithoutCustomer.id || ""}
+            label="Animal"
             onChange={handleAnimalSelectChange}
           >
+            <MenuItem value="">
+              <em>Select Animal</em>
+            </MenuItem>
             {animal?.map((anim, index) => (
-              <option key={index} value={anim.id}>
+              <MenuItem key={index} value={anim.id}>
                 {anim.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button onClick={handleAddNewVaccination}>Add Vaccination</button>
+          </Select>
+          <Button onClick={handleAddNewVaccination}>Add Vaccination</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Update Vaccination</h3>
         <div className="form-group">
-          <input
-            type="text"
+          <TextField
+            label="Vaccination Name"
+            variant="standard"
             name="name"
-            placeholder="Vaccination Name"
             value={updateVaccination.name}
             onChange={handleUpdateVaccinationInputChange}
           />
-          <input
-            type="text"
+          <TextField
+            label="Vaccination Code"
+            variant="standard"
             name="code"
-            placeholder="Vaccination Code"
             value={updateVaccination.code}
             onChange={handleUpdateVaccinationInputChange}
           />
-          <input
+          <TextField
+            variant="standard"
             type="date"
             name="protectionStartDate"
             value={updateVaccination.protectionStartDate}
             onChange={handleUpdateVaccinationInputChange}
           />
-          <input
+          <TextField
+            variant="standard"
             type="date"
             name="protectionFinishDate"
             value={updateVaccination.protectionFinishDate}
             onChange={handleUpdateVaccinationInputChange}
           />
-          <select
+          <Select
+            labelId="demo-simple-select-label"
             id="UpdateAnimalSelect"
             name="animalWithoutCustomer"
             value={updateVaccination.animalWithoutCustomer.id || ""}
+            label="Animal"
             onChange={handleUpdateAnimalSelectChange}
           >
+            <MenuItem value="">
+              <em>Select Animal</em>
+            </MenuItem>
             {animal?.map((anim, index) => (
-              <option key={index} value={anim.id}>
+              <MenuItem key={index} value={anim.id}>
                 {anim.name}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button onClick={handleUpdateVaccination}>Update Vaccination</button>
-        </div>
-      </div>
-
-      <div className="card">
-        <h3>Search Vaccination by Name</h3>
-        <div className="form-group">
-          <input
-            type="text"
-            value={searchName}
-            onChange={(e) => setSearchName(e.target.value)}
-          />
-          <button onClick={handleSearchByName}>Search</button>
+          </Select>
+          <Button onClick={handleUpdateVaccination}>Update Vaccination</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Search Vaccination by Animal</h3>
         <div className="form-group">
-          <input
-            type="text"
+          <TextField
+            variant="standard"
+            placeholder="Search by Animal"
             value={searchAnimal}
             onChange={(e) => setSearchAnimal(e.target.value)}
           />
-          <button onClick={handleSearchByAnimal}>Search</button>
+          <Button onClick={handleSearchByAnimal}>Search</Button>
         </div>
       </div>
 
       <div className="card">
         <h3>Search Vaccination by Date Range</h3>
         <div className="form-group">
-          <input
+          <TextField
             type="date"
+            variant="standard"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
-          <input
+          <TextField
             type="date"
+            variant="standard"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
-          <button onClick={handleSearchByVaccinationRange}>Search</button>
+          <Button onClick={handleSearchByVaccinationRange}>Search</Button>
         </div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Code</th>
-            <th>Start Date</th>
-            <th>Finish Date</th>
-            <th>Animal</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {vaccination?.map((vacc, index) => (
-            <tr key={index}>
-              <td>{vacc.name}</td>
-              <td>{vacc.code}</td>
-              <td>{vacc.protectionStartDate}</td>
-              <td>{vacc.protectionFinishDate}</td>
-              <td>{vacc.animalWithoutCustomer?.name}</td>
-              <td className="actions">
-                <button onClick={handleDeleteVaccination} id={vacc.id}>
-                  DELETE
-                </button>
-                <button onClick={handleUpdateVaccinationBtn} id={index}>
-                  UPDATE
-                </button>
-              </td>
+      <div className="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Code</th>
+              <th>Start Date</th>
+              <th>Finish Date</th>
+              <th>Animal</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {vaccination?.map((vacc, index) => (
+              <tr key={index}>
+                <td>{vacc.name}</td>
+                <td>{vacc.code}</td>
+                <td>{vacc.protectionStartDate}</td>
+                <td>{vacc.protectionFinishDate}</td>
+                <td>{vacc.animalWithoutCustomer?.name}</td>
+                <td className="actions">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={handleDeleteVaccination}
+                    id={vacc.id}
+                  >
+                    DELETE
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleUpdateVaccinationBtn}
+                    id={index}
+                  >
+                    UPDATE
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      {open && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Error</h2>
-            <p>{error}</p>
-            <button onClick={handleClose}>Close</button>
-          </div>
-        </div>
-      )}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>{"Error"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{error}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

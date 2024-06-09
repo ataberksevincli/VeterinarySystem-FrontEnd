@@ -19,6 +19,7 @@
 .form-group {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .form-group input,
@@ -28,12 +29,14 @@
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  flex: 1;
 }
 
 .form-group button {
   background-color: #007bff;
   color: white;
   cursor: pointer;
+  flex: none;
 }
 
 .form-group button:hover {
@@ -97,4 +100,31 @@ table tr:hover {
 
 .modal-content button:hover {
   background-color: #0056b3;
+}
+
+select {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+select:hover {
+  border-color: #007bff;
+}
+
+select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+option {
+  padding: 12px;
+  background-color: #fff;
+  color: #000;
 }
